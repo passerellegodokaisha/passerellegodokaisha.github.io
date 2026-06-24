@@ -1,1 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passerelle — La Vie de Château</title>
+<meta name="description" content="フランスの古城で過ごす二週間。城の暮らしを舞台に、午前はフランス語、午後は文化遺産ボランティア。2027年冬 シャトー・ド・ガイヨン。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2235;
+    --stone: #e8e0d4;
+    --terra: #b85c38;
+    --cream: #faf8f4;
+    --ink: #2c2c2c;
+    --mist: #8a8a8a;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--cream); color: var(--ink); font-weight: 300; overflow-x: hidden; }
 
+  .lang-bar { position: fixed; top: 0; right: 0; z-index: 100; display: flex; background: var(--navy); }
+  .lang-btn { padding: 10px 18px; font-family: 'Noto Sans JP', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); cursor: pointer; border: none; background: transparent; transition: all 0.2s; }
+  .lang-btn.active, .lang-btn:hover { color: var(--white); background: rgba(255,255,255,0.1); }
+  .lang-btn.active { color: var(--terra); font-weight: 400; }
+
+  nav { position: fixed; top: 0; left: 0; z-index: 99; padding: 20px 48px; display: flex; align-items: center; gap: 12px; }
+  .nav-logo { font-family: 'EB Garamond', serif; font-size: 18px; color: var(--navy); letter-spacing: 0.05em; }
+  .nav-sub { font-family: 'Noto Serif JP', serif; font-size: 11px; color: var(--mist); letter-spacing: 0.2em; }
+  .nav-divider { width: 1px; height: 20px; background: var(--mist); opacity: 0.4; margin: 0 8px; }
+
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+  .hero-left { background: var(--navy); display: flex; flex-direction: column; justify-content: flex-end; padding: 80px 64px; position: relative; overflow: hidden; }
+  .hero-left::before { content: '橋渡し'; position: absolute; top: -20px; left: -20px; font-family: 'Noto Serif JP', serif; font-size: 220px; font-weight: 300; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; white-space: nowrap; }
+  .hero-eyebrow { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; letter-spacing: 0.3em; color: var(--terra); margin-bottom: 24px; text-transform: uppercase; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(42px, 5vw, 72px); font-weight: 300; color: var(--white); line-height: 1.1; margin-bottom: 12px; font-style: italic; }
+  .hero-title-ja { font-family: 'Noto Serif JP', serif; font-size: clamp(20px, 2.5vw, 32px); font-weight: 300; color: rgba(255,255,255,0.7); letter-spacing: 0.2em; margin-bottom: 40px; }
+  .hero-desc { font-family: 'Noto Serif JP', serif; font-size: 15px; line-height: 2; color: rgba(255,255,255,0.65); max-width: 360px; margin-bottom: 48px; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 16px; color: var(--white); font-size: 13px; letter-spacing: 0.15em; cursor: pointer; border: none; background: none; font-family: 'Noto Sans JP', sans-serif; }
+  .hero-cta::after { content: ''; display: block; width: 48px; height: 1px; background: var(--terra); transition: width 0.3s; }
+  .hero-cta:hover::after { width: 80px; }
+  .hero-right { background: var(--stone); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .hero-stats { position: absolute; bottom: 48px; right: 48px; text-align: right; z-index: 2; }
+  .stat { margin-bottom: 24px; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--navy); line-height: 1; font-style: italic; }
+  .stat-label { font-size: 11px; color: var(--mist); letter-spacing: 0.2em; font-family: 'Noto Sans JP', sans-serif; }
+
+  .section { padding: 120px 0; }
+  .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 64px; }
+  .section-label { font-size: 11px; letter-spacing: 0.35em; color: var(--terra); text-transform: uppercase; font-family: 'Noto Sans JP', sans-serif; margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+  .section-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--terra); }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 56px); font-weight: 300; line-height: 1.2; color: var(--navy); margin-bottom: 16px; font-style: italic; }
+  .section-title-ja { font-family: 'Noto Serif JP', serif; font-size: clamp(18px, 2vw, 26px); font-weight: 300; color: var(--navy); letter-spacing: 0.15em; margin-bottom: 48px; }
+
+  .program-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2px; margin-top: 64px; background: var(--stone); }
+  .prog-card { background: var(--cream); padding: 48px 40px; position: relative; overflow: hidden; transition: background 0.3s; }
+  .prog-card:hover { background: var(--white); }
+  .prog-card.featured { background: var(--navy); }
+  .prog-card.featured:hover { background: #1e2a40; }
+  .prog-num { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300; line-height: 1; color: var(--stone); margin-bottom: 24px; font-style: italic; }
+  .prog-card.featured .prog-num { color: rgba(255,255,255,0.15); }
+  .prog-title { font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 400; color: var(--navy); margin-bottom: 8px; letter-spacing: 0.1em; }
+  .prog-card.featured .prog-title { color: var(--white); }
+  .prog-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: var(--mist); margin-bottom: 20px; }
+  .prog-card.featured .prog-subtitle { color: rgba(255,255,255,0.5); }
+  .prog-desc { font-size: 13px; line-height: 2; color: var(--mist); }
+  .prog-card.featured .prog-desc { color: rgba(255,255,255,0.65); }
+
+  .schedule-block { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 64px; }
+  .schedule-list { list-style: none; }
+  .schedule-item { display: flex; gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--stone); align-items: flex-start; }
+  .schedule-time { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--terra); min-width: 80px; line-height: 1; margin-top: 2px; }
+  .schedule-title { font-family: 'Noto Serif JP', serif; font-size: 15px; font-weight: 400; color: var(--navy); margin-bottom: 4px; letter-spacing: 0.05em; }
+  .schedule-note { font-size: 12px; color: var(--mist); line-height: 1.8; }
+  .schedule-tag { display: inline-block; font-size: 9px; letter-spacing: 0.15em; padding: 2px 8px; background: var(--terra); color: var(--white); margin-left: 8px; vertical-align: middle; font-family: 'Noto Sans JP', sans-serif; }
+
+  .info-box { background: var(--navy); padding: 48px; color: var(--white); }
+  .info-box-title { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 300; letter-spacing: 0.15em; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  .info-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 13px; }
+  .info-key { color: rgba(255,255,255,0.5); letter-spacing: 0.1em; }
+  .info-val { color: var(--white); font-family: 'Noto Serif JP', serif; text-align: right; }
+  .info-terra { color: var(--terra); }
+
+  .location-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2px; margin-top: 64px; background: var(--stone); }
+  .loc-card { background: var(--cream); padding: 48px 40px; position: relative; overflow: hidden; min-height: 240px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .loc-card.featured { background: var(--navy); }
+  .loc-num { font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 300; color: var(--stone); line-height: 1; position: absolute; top: 16px; right: 24px; font-style: italic; }
+  .loc-card.featured .loc-num { color: rgba(255,255,255,0.08); }
+  .loc-tag-loc { display: inline-block; font-size: 10px; letter-spacing: 0.2em; padding: 4px 10px; background: var(--terra); color: var(--white); margin-bottom: 16px; font-family: 'Noto Sans JP', sans-serif; align-self: flex-start; }
+  .loc-card.featured .loc-tag-loc { background: var(--terra); color: var(--white); }
+  .loc-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-style: italic; color: var(--navy); font-weight: 300; margin-bottom: 6px; }
+  .loc-card.featured .loc-title { color: var(--white); }
+  .loc-region { font-size: 11px; color: var(--mist); letter-spacing: 0.2em; font-family: 'Noto Sans JP', sans-serif; }
+  .loc-card.featured .loc-region { color: rgba(255,255,255,0.5); }
+  .loc-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-style: italic; font-weight: 300; color: var(--navy); line-height: 1; margin-bottom: 8px; }
+  .loc-stat-label { font-size: 11px; color: var(--mist); letter-spacing: 0.15em; font-family: 'Noto Sans JP', sans-serif; line-height: 1.6; }
+
+  .apply-section { background: var(--navy); padding: 120px 0; }
+  .apply-inner { max-width: 1200px; margin: 0 auto; padding: 0 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .apply-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 60px); font-weight: 300; color: var(--white); line-height: 1.1; font-style: italic; margin-bottom: 12px; }
+  .apply-title-ja { font-family: 'Noto Serif JP', serif; font-size: 20px; font-weight: 300; color: rgba(255,255,255,0.6); letter-spacing: 0.2em; margin-bottom: 32px; }
+  .apply-body { font-size: 14px; line-height: 2.2; color: rgba(255,255,255,0.6); margin-bottom: 48px; }
+  .apply-btn { display: inline-block; padding: 18px 48px; background: var(--terra); color: var(--white); font-family: 'Noto Serif JP', serif; font-size: 14px; letter-spacing: 0.2em; cursor: pointer; border: none; transition: background 0.3s; text-decoration: none; }
+  .apply-btn:hover { background: #a04e2e; }
+  .apply-requirements { border-left: 1px solid rgba(255,255,255,0.15); padding-left: 64px; }
+  .req-item { display: flex; gap: 20px; margin-bottom: 28px; align-items: flex-start; }
+  .req-icon { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: var(--terra); min-width: 24px; line-height: 1.6; }
+  .req-text { font-size: 13px; line-height: 1.9; color: rgba(255,255,255,0.65); }
+  .req-bold { font-family: 'Noto Serif JP', serif; color: var(--white); display: block; margin-bottom: 2px; font-size: 14px; }
+
+  .partner-note { max-width: 1200px; margin: 0 auto; padding: 0 64px; }
+  .partner-inner { border-top: 1px solid var(--stone); padding-top: 48px; display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; flex-wrap: wrap; }
+  .partner-label { font-size: 11px; letter-spacing: 0.35em; color: var(--terra); text-transform: uppercase; font-family: 'Noto Sans JP', sans-serif; margin-bottom: 16px; }
+  .partner-text { font-size: 13px; line-height: 2; color: var(--mist); max-width: 600px; }
+  .partner-text a { color: var(--terra); text-decoration: none; border-bottom: 1px solid rgba(184,92,56,0.3); }
+  .partner-text a:hover { border-bottom-color: var(--terra); }
+
+  footer { background: #111825; padding: 64px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: var(--white); margin-bottom: 8px; }
+  .footer-sub { font-size: 11px; color: var(--mist); letter-spacing: 0.2em; font-family: 'Noto Sans JP', sans-serif; }
+  .footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: rgba(255,255,255,0.3); }
+
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .divider { width: 100%; height: 1px; background: var(--stone); }
+
+  [data-lang] { display: none; }
+  .lang-ja [data-lang="ja"] { display: block; }
+  .lang-en [data-lang="en"] { display: block; }
+  .lang-fr [data-lang="fr"] { display: block; }
+  span[data-lang] { display: none; }
+  .lang-ja span[data-lang="ja"] { display: inline; }
+  .lang-en span[data-lang="en"] { display: inline; }
+  .lang-fr span[data-lang="fr"] { display: inline; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .program-grid { grid-template-columns: 1fr; }
+    .schedule-block { grid-template-columns: 1fr; gap: 40px; }
+    .location-grid { grid-template-columns: 1fr; }
+    .apply-inner { grid-template-columns: 1fr; }
+    .apply-requirements { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 48px; }
+    .section-inner { padding: 0 24px; }
+    .partner-note { padding: 0 24px; }
+    .partner-inner { flex-direction: column; gap: 24px; }
+    footer { flex-direction: column; gap: 24px; align-items: flex-start; padding: 40px 24px; }
+    nav { padding: 20px 24px; }
+    .hero-left { padding: 80px 24px 64px; }
+  }
+</style>
+</head>
+<body class="lang-ja">
+
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ja',this)">日本語</button>
+  <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+  <button class="lang-btn" onclick="setLang('fr',this)">FR</button>
+</div>
+
+<nav>
+  <span class="nav-logo">Passerelle</span>
+  <span class="nav-divider"></span>
+  <span class="nav-sub">橋渡し合同会社</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span data-lang="ja">2027年 冬 ・ HIVER 2027</span>
+      <span data-lang="en">Winter 2027 · Château de Gaillon</span>
+      <span data-lang="fr">Hiver 2027 · Château de Gaillon</span>
+    </div>
+    <h1 class="hero-title">La Vie<br>de Château</h1>
+    <div class="hero-title-ja">
+      <span data-lang="ja">城の暮らし</span>
+      <span data-lang="en">Life at the Château</span>
+      <span data-lang="fr">La Vie au Château</span>
+    </div>
+    <p class="hero-desc">
+      <span data-lang="ja">フランスの古城で過ごす二週間。ルネサンス期の城を舞台に、午前はフランス語のレッスン、午後は文化遺産の保全ボランティア。城内に宿泊し、朝から晩までフランス語に包まれた毎日を送ります。</span>
+      <span data-lang="en">Two weeks living inside a French château. French lessons each morning, heritage conservation work each afternoon — staying on-site at a Renaissance château, immersed in French from morning to night.</span>
+      <span data-lang="fr">Deux semaines au cœur d'un château français. Cours de français le matin, conservation du patrimoine l'après-midi — hébergé sur place dans un château Renaissance, immergé du matin au soir.</span>
+    </p>
+    <button class="hero-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">
+      <span data-lang="ja">参加申し込み</span>
+      <span data-lang="en">Apply Now</span>
+      <span data-lang="fr">Candidater</span>
+    </button>
+  </div>
+  <div class="hero-right">
+    <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="position:absolute;bottom:0;width:100%;opacity:0.15">
+      <path d="M0 300 Q200 100 400 200 Q600 300 800 100" stroke="#1a2235" stroke-width="3" fill="none"/>
+      <path d="M100 300 L100 180" stroke="#1a2235" stroke-width="2"/>
+      <path d="M250 300 L250 140" stroke="#1a2235" stroke-width="2"/>
+      <path d="M400 300 L400 200" stroke="#1a2235" stroke-width="2"/>
+      <path d="M550 300 L550 230" stroke="#1a2235" stroke-width="2"/>
+      <path d="M700 300 L700 120" stroke="#1a2235" stroke-width="2"/>
+      <line x1="0" y1="300" x2="800" y2="300" stroke="#1a2235" stroke-width="3"/>
+    </svg>
+    <div class="hero-stats">
+      <div class="stat fade-up"><div class="stat-num">13</div><div class="stat-label"><span data-lang="ja">泊・1セッション</span><span data-lang="en">nights / session</span><span data-lang="fr">nuits / session</span></div></div>
+      <div class="stat fade-up" style="transition-delay:0.2s"><div class="stat-num">10–12</div><div class="stat-label"><span data-lang="ja">名定員</span><span data-lang="en">participants</span><span data-lang="fr">participants</span></div></div>
+      <div class="stat fade-up" style="transition-delay:0.4s"><div class="stat-num">2027</div><div class="stat-label"><span data-lang="ja">冬・募集中</span><span data-lang="en">winter intake</span><span data-lang="fr">session d'hiver</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label fade-up"><span data-lang="ja">プログラムについて</span><span data-lang="en">The Program</span><span data-lang="fr">Le Programme</span></div>
+    <h2 class="section-title fade-up">La Vie de Château</h2>
+    <div class="section-title-ja fade-up"><span data-lang="ja">このプログラムについて</span><span data-lang="en">About this experience</span><span data-lang="fr">Ce programme en détail</span></div>
+    <div class="program-grid fade-up">
+      <div class="prog-card featured">
+        <div class="prog-num">01</div>
+        <div class="prog-title"><span data-lang="ja">文化遺産ボランティア</span><span data-lang="en">Heritage Volunteering</span><span data-lang="fr">Bénévolat patrimonial</span></div>
+        <div class="prog-subtitle">13h00 – 17h00</div>
+        <div class="prog-desc"><span data-lang="ja">午後は歴史的建造物の保全活動に参加。専門技術は不要。フランス中世遺産保全団体 CHAM と提携した本格的なボランティアを通じて、地域とつながります。</span><span data-lang="en">Each afternoon, hands-on heritage conservation work. No technical skill required — authentic volunteering in partnership with CHAM, France's medieval heritage conservation organisation.</span><span data-lang="fr">Chaque après-midi, conservation du patrimoine bâti. Aucune compétence requise — un bénévolat authentique en partenariat avec le CHAM.</span></div>
+      </div>
+      <div class="prog-card">
+        <div class="prog-num">02</div>
+        <div class="prog-title"><span data-lang="ja">フランス語授業</span><span data-lang="en">French Lessons</span><span data-lang="fr">Cours de français</span></div>
+        <div class="prog-subtitle">9h00 – 11h30</div>
+        <div class="prog-desc"><span data-lang="ja">経験豊かな講師による少人数制の実践的なフランス語授業。初心者歓迎。</span><span data-lang="en">Small-group, practical French lessons with experienced teachers. Complete beginners welcome.</span><span data-lang="fr">Cours de français pratiques en petit groupe, avec des enseignants expérimentés. Débutants bienvenus.</span></div>
+      </div>
+      <div class="prog-card">
+        <div class="prog-num">03</div>
+        <div class="prog-title"><span data-lang="ja">城内での宿泊</span><span data-lang="en">Stay in the Château</span><span data-lang="fr">Logement au château</span></div>
+        <div class="prog-subtitle"><span data-lang="ja">13泊・3食付き</span><span data-lang="en">13 nights, full board</span><span data-lang="fr">13 nuits, pension complète</span></div>
+        <div class="prog-desc"><span data-lang="ja">城内に宿泊し、1日3食付き。移動の負担なく、城での生活そのものを体験します。渡航費のみ自己負担。</span><span data-lang="en">Stay inside the château with three meals a day. Live the château life with no daily commute. Flights at participant's expense.</span><span data-lang="fr">Hébergement au château, trois repas par jour. Vivez la vie de château, sans trajets quotidiens. Seul le vol reste à votre charge.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCHEDULE -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label fade-up"><span data-lang="ja">一日の流れ</span><span data-lang="en">Daily Schedule</span><span data-lang="fr">Programme journalier</span></div>
+    <h2 class="section-title fade-up"><span data-lang="ja">過ごし方</span><span data-lang="en">A Day at the Château</span><span data-lang="fr">Une journée au château</span></h2>
+    <div class="schedule-block fade-up">
+      <ul class="schedule-list">
+        <li class="schedule-item">
+          <span class="schedule-time">7h30</span>
+          <div><div class="schedule-title"><span data-lang="ja">朝食</span><span data-lang="en">Breakfast</span><span data-lang="fr">Petit-déjeuner</span><span class="schedule-tag">→ 9h00</span></div><div class="schedule-note"><span data-lang="ja">城内での朝食。一日の始まり。</span><span data-lang="en">Breakfast at the château.</span><span data-lang="fr">Petit-déjeuner au château.</span></div></div>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-time">9h00</span>
+          <div><div class="schedule-title"><span data-lang="ja">フランス語レッスン</span><span data-lang="en">French Lesson</span><span data-lang="fr">Cours de français</span><span class="schedule-tag">→ 11h30</span></div><div class="schedule-note"><span data-lang="ja">少人数クラス。初心者から歓迎。</span><span data-lang="en">Small-group class. All levels welcome.</span><span data-lang="fr">Petit groupe. Tous niveaux.</span></div></div>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-time">11h30</span>
+          <div><div class="schedule-title"><span data-lang="ja">昼食</span><span data-lang="en">Lunch</span><span data-lang="fr">Déjeuner</span><span class="schedule-tag">→ 13h00</span></div><div class="schedule-note"><span data-lang="ja">グループ全員での昼食。</span><span data-lang="en">Lunch, shared as a group.</span><span data-lang="fr">Déjeuner en groupe.</span></div></div>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-time">13h00</span>
+          <div><div class="schedule-title"><span data-lang="ja">文化遺産ボランティア</span><span data-lang="en">Heritage Work</span><span data-lang="fr">Chantier bénévole</span><span class="schedule-tag">→ 17h00</span></div><div class="schedule-note"><span data-lang="ja">歴史的建造物の保全活動。現地スタッフと共に。</span><span data-lang="en">Conservation work alongside local staff.</span><span data-lang="fr">Travaux de conservation avec le personnel local.</span></div></div>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-time">17h00</span>
+          <div><div class="schedule-title"><span data-lang="ja">自由時間</span><span data-lang="en">Free Time</span><span data-lang="fr">Temps libre</span><span class="schedule-tag">→ 19h30</span></div><div class="schedule-note"><span data-lang="ja">休息や自由行動の時間。</span><span data-lang="en">Time to rest or explore.</span><span data-lang="fr">Repos ou temps libre.</span></div></div>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-time">19h30</span>
+          <div><div class="schedule-title"><span data-lang="ja">夕食</span><span data-lang="en">Dinner</span><span data-lang="fr">Dîner</span><span class="schedule-tag">→ 21h00</span></div><div class="schedule-note"><span data-lang="ja">グループでの夕食。週末は休息や自由行動に。</span><span data-lang="en">Group dinner. Weekends are free.</span><span data-lang="fr">Dîner en groupe. Week-ends libres.</span></div></div>
+        </li>
+      </ul>
+      <div class="info-box">
+        <div class="info-box-title"><span data-lang="ja">日程と料金</span><span data-lang="en">Dates & Fees</span><span data-lang="fr">Dates & tarifs</span></div>
+        <div class="info-row"><span class="info-key"><span data-lang="ja">第1回</span><span data-lang="en">Session 1</span><span data-lang="fr">Session 1</span></span><span class="info-val info-terra">2027 · 2/22 – 3/5</span></div>
+        <div class="info-row"><span class="info-key"><span data-lang="ja">第2回</span><span data-lang="en">Session 2</span><span data-lang="fr">Session 2</span></span><span class="info-val info-terra">2027 · 3/8 – 3/19</span></div>
+        <div class="info-row"><span class="info-key"><span data-lang="ja">期間</span><span data-lang="en">Duration</span><span data-lang="fr">Durée</span></span><span class="info-val"><span data-lang="ja">各回 13泊・2週間</span><span data-lang="en">13 nights each</span><span data-lang="fr">13 nuits / session</span></span></div>
+        <div class="info-row"><span class="info-key"><span data-lang="ja">定員</span><span data-lang="en">Capacity</span><span data-lang="fr">Places</span></span><span class="info-val">10–12<span data-lang="ja">名</span><span data-lang="en"> students</span><span data-lang="fr"> étudiants</span></span></div>
+        <div class="info-row"><span class="info-key"><span data-lang="ja">参加費</span><span data-lang="en">Fee</span><span data-lang="fr">Frais</span></span><span class="info-val">¥175,000〜</span></div>
+        <div class="info-row"><span class="info-key"><span data-lang="ja">早期割引</span><span data-lang="en">Early bird</span><span data-lang="fr">Tarif anticipé</span></span><span class="info-val info-terra">¥159,000</span></div>
+        <div class="info-row"><span class="info-key"><span data-lang="ja">語学条件</span><span data-lang="en">Language</span><span data-lang="fr">Langue</span></span><span class="info-val"><span data-lang="ja">フランス語不問</span><span data-lang="en">No French required</span><span data-lang="fr">Français non requis</span></span></div>
+      </div>
+    </div>
+    <p class="schedule-note" style="margin-top:32px; max-width:640px;"><span data-lang="ja">※ 任意：パリ＆フォンテーヌブロー日帰り（追加料金 ¥18,000）。エッフェル塔やフォンテーヌブロー宮殿を訪れる特別な一日。早期割引は各回 先着4名様まで。航空券は含まれません。</span><span data-lang="en">※ Optional: a Paris &amp; Fontainebleau day trip (¥18,000) — the Eiffel Tower and the Château de Fontainebleau. Early-bird rate for the first 4 per session. Flights not included.</span><span data-lang="fr">※ En option : une excursion Paris &amp; Fontainebleau (¥18,000). Tarif anticipé pour les 4 premiers par session. Vol non inclus.</span></p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LOCATION -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label fade-up"><span data-lang="ja">ロケーション</span><span data-lang="en">Location</span><span data-lang="fr">Localisation</span></div>
+    <h2 class="section-title fade-up">Château de Gaillon</h2>
+    <div class="section-title-ja fade-up"><span data-lang="ja">パリとジヴェルニーへ</span><span data-lang="en">Close to Paris &amp; Giverny</span><span data-lang="fr">Proche de Paris &amp; Giverny</span></div>
+    <div class="location-grid fade-up">
+      <div class="loc-card featured">
+        <div class="loc-num">★</div>
+        <span class="loc-tag-loc"><span data-lang="ja">開催地</span><span data-lang="en">Confirmed site</span><span data-lang="fr">Site confirmé</span></span>
+        <div class="loc-title">Château de Gaillon</div>
+        <div class="loc-region"><span data-lang="ja">ガイヨン城 · ノルマンディー · Eure</span><span data-lang="en">Normandy · Eure</span><span data-lang="fr">Normandie · Eure</span></div>
+      </div>
+      <div class="loc-card">
+        <div class="loc-stat-num">~1h</div>
+        <div class="loc-stat-label"><span data-lang="ja">パリまで<br>直通列車・1日約17本</span><span data-lang="en">to Paris<br>~17 direct trains/day</span><span data-lang="fr">de Paris<br>~17 trains directs/jour</span></div>
+      </div>
+      <div class="loc-card">
+        <div class="loc-stat-num">18km</div>
+        <div class="loc-stat-label"><span data-lang="ja">ジヴェルニーまで<br>モネの庭・印象派の里</span><span data-lang="en">to Giverny<br>Monet's garden</span><span data-lang="fr">de Giverny<br>le jardin de Monet</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="apply-section" id="apply">
+  <div class="apply-inner">
+    <div>
+      <div class="section-label" style="color:var(--terra)"><span data-lang="ja">参加申し込み</span><span data-lang="en">Applications</span><span data-lang="fr">Candidatures</span></div>
+      <h2 class="apply-title"><span data-lang="ja">フランスへの<br>架け橋になろう</span><span data-lang="en">Build your<br>bridge to France</span><span data-lang="fr">Devenez<br>le pont vers<br>la France</span></h2>
+      <div class="apply-title-ja"><span data-lang="ja">2027年 冬 ・ 募集中</span><span data-lang="en">Winter 2027 — Now Open</span><span data-lang="fr">Hiver 2027 — Inscriptions ouvertes</span></div>
+      <p class="apply-body"><span data-lang="ja">各回10〜12名の少人数プログラムです。フランス語が全くできなくても大丈夫。必要なのは好奇心と体を動かす意欲だけ。コーディネーターが日本語でサポートします。</span><span data-lang="en">A small cohort of 10–12 per session. No French required — just curiosity and a willingness to work with your hands. Full support in Japanese throughout.</span><span data-lang="fr">Un groupe de 10 à 12 par session. Aucun niveau de français requis. Encadrement en japonais fourni.</span></p>
+      <a class="apply-btn" href="mailto:passerellegodokaisha@gmail.com"><span data-lang="ja">申し込む・問い合わせる</span><span data-lang="en">Apply / Enquire</span><span data-lang="fr">Candidater / Nous contacter</span></a>
+    </div>
+    <div class="apply-requirements">
+      <div class="req-item fade-up"><span class="req-icon">i.</span><div class="req-text"><span class="req-bold"><span data-lang="ja">対象者</span><span data-lang="en">Who can apply</span><span data-lang="fr">Qui peut candidater</span></span><span data-lang="ja">日本の大学・大学院に在籍中の学生</span><span data-lang="en">Students currently enrolled at a Japanese university</span><span data-lang="fr">Étudiants inscrits dans une université japonaise</span></div></div>
+      <div class="req-item fade-up" style="transition-delay:0.1s"><span class="req-icon">ii.</span><div class="req-text"><span class="req-bold"><span data-lang="ja">語学条件</span><span data-lang="en">Language</span><span data-lang="fr">Langue</span></span><span data-lang="ja">フランス語・英語不問。日本語でのサポートあり。</span><span data-lang="en">No French or English required. All coordination in Japanese.</span><span data-lang="fr">Aucun niveau de français requis. Coordination en japonais.</span></div></div>
+      <div class="req-item fade-up" style="transition-delay:0.2s"><span class="req-icon">iii.</span><div class="req-text"><span class="req-bold"><span data-lang="ja">身体条件</span><span data-lang="en">Physical condition</span><span data-lang="fr">Condition physique</span></span><span data-lang="ja">屋外での軽作業が可能な健康状態</span><span data-lang="en">Ability to perform light outdoor manual work</span><span data-lang="fr">Aptitude aux travaux manuels légers en extérieur</span></div></div>
+      <div class="req-item fade-up" style="transition-delay:0.3s"><span class="req-icon">iv.</span><div class="req-text"><span class="req-bold"><span data-lang="ja">費用</span><span data-lang="en">Cost</span><span data-lang="fr">Coût</span></span><span data-lang="ja">城内宿泊・1日3食・レッスン・ボランティア・現地送迎・グループ保険込み。航空券は自己負担。</span><span data-lang="en">Château accommodation, three meals a day, lessons, volunteering, local transfers and group insurance included. Flights extra.</span><span data-lang="fr">Hébergement au château, trois repas, cours, bénévolat, transferts locaux et assurance de groupe inclus. Vol en sus.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERSHIP -->
+<section style="padding: 80px 0;">
+  <div class="partner-note">
+    <div class="partner-inner">
+      <div>
+        <div class="partner-label"><span data-lang="ja">パートナーシップ</span><span data-lang="en">Partnership</span><span data-lang="fr">Partenariat</span></div>
+        <p class="partner-text"><span data-lang="ja">当プログラムは、フランス中世遺産保全団体 CHAM（Chantiers Histoire &amp; Architecture Médiévales）と提携した本格的なボランティア活動を実現しています。 <a href="https://www.cham.asso.fr" target="_blank" rel="noopener">www.cham.asso.fr</a></span><span data-lang="en">This program runs authentic conservation work in partnership with CHAM (Chantiers Histoire &amp; Architecture Médiévales), France's medieval heritage conservation organisation. <a href="https://www.cham.asso.fr" target="_blank" rel="noopener">www.cham.asso.fr</a></span><span data-lang="fr">Ce programme propose un bénévolat authentique en partenariat avec le CHAM (Chantiers Histoire &amp; Architecture Médiévales). <a href="https://www.cham.asso.fr" target="_blank" rel="noopener">www.cham.asso.fr</a></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="footer-brand">Passerelle</div>
+    <div class="footer-sub">パサレル合同会社 · 橋渡し · Japan</div>
+  </div>
+  <div class="footer-tagline">Relier les cultures, vivre les territoires.</div>
+</footer>
+
+<script>
+  function setLang(lang, btn) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.hero-stats .fade-up').forEach(el => el.classList.add('visible'));
+  }, 300);
+</script>
+</body>
+</html>
